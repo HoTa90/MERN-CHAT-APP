@@ -6,11 +6,8 @@ export const register = async (req, res) => {
 	const { fullName, email, password } = req.body;
 
 	try {
-
-		if (!fullName || !email || !password){
-			return res
-				.status(400)
-				.json({ message: "Please fill all fields!" });
+		if (!fullName || !email || !password) {
+			return res.status(400).json({ message: "Please fill all fields!" });
 		}
 
 		if (password.length < 6) {
@@ -47,13 +44,50 @@ export const register = async (req, res) => {
 			res.status(400).json({ message: "Invalid User data!" });
 		}
 	} catch (err) {
-		console.log('Error in register controller', err.message);
-		res.status(500).json({message: 'Internal Server Error!'});
+		console.log("Error in register controller", err.message);
+		res.status(500).json({ message: "Internal Server Error!" });
 	}
 };
-export const login = (req, res) => {
-	res.send("register");
+export const login = async (req, res) => {
+	const { email, password } = req.body;
+	try {
+		const user = await User.findOne({ email });
+
+		if (!user) {
+			return res
+				.status(400)
+				.json({ message: "Invalid email or password!" });
+		}
+
+		const isPasswordCorrect = await bcrypt.compare(password, user.password);
+		if (!isPasswordCorrect) {
+			return res
+				.status(400)
+				.json({ message: "Invalid email or password!" });
+		}
+
+		generateToken(user._id, res);
+		res.status(200).json({
+			_id: user._id,
+			fullName: user.fullName,
+			email: user.email,
+			profilePic: user.profilePic,
+		});
+	} catch (err) {
+		console.log("Error in login controller", err.message);
+		res.status(500).json({ message: "Internal Server Error!" });
+	}
 };
 export const logout = (req, res) => {
-	res.send("register");
+	try {
+		res.clearCookie("jwt", {
+			httpOnly: true,
+			sameSite: "strict",
+			secure: process.env.NODE_ENV !== "development",
+		});
+		res.status(200).json({ message: "Logged out successfully" });
+	} catch (err) {
+		console.log("Error in logout controller", err.message);
+		res.status(500).json({ message: "Internal Server Error!" });
+	}
 };
