@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import { Link } from "react-router";
 import {
 	Eye,
@@ -10,9 +10,58 @@ import {
 	User,
 } from "lucide-react";
 import ImagePattern from "../components/ImagePattern.jsx";
+import toast from "react-hot-toast";
+import { useAuthStore } from "../store/useAuthStore.js";
 
 export default function RegisterPage() {
 	const [showPassword, setShowPassword] = useState(false);
+	const { register } = useAuthStore();
+
+	const validateForm = (formData) => {
+		const {
+			fullName = "",
+			email = "",
+			password = "",
+		} = Object.fromEntries(formData);
+
+		if (!fullName.trim()) {
+			toast.error("Full name is required.");
+			return false;
+		}
+		if (!email.trim()) {
+			toast.error("Email is required.");
+			return false;
+		}
+		if (!/^\S+@\S+\.\S+$/.test(email)) {
+			toast.error("Enter a valid email.");
+			return false;
+		}
+		if (!password) {
+			toast.error("Password is required.");
+			return false;
+		}
+		if (password.length < 6) {
+			toast.error("Password must be ≥ 6 characters.");
+			return false;
+		}
+
+		return true;
+	};
+
+	const [, formAction, isPending] = useActionState(
+		(prev, formData) => registerAction(prev, formData, register),
+		null
+	);
+
+	async function registerAction(_, formData, register) {
+		const values = Object.fromEntries(formData);
+		const success = validateForm(formData);
+		if (success) {
+			await register(values);
+		}
+
+		return null;
+	}
 
 	return (
 		<div className="min-h-screen grid lg:grid-cols-2">
@@ -36,7 +85,7 @@ export default function RegisterPage() {
 						</div>
 					</div>
 
-					<form className="space-y-6">
+					<form action={formAction} className="space-y-6">
 						<div className="form-control">
 							<label className="label" htmlFor="fullName">
 								<span className="label-text font-medium">
@@ -116,8 +165,11 @@ export default function RegisterPage() {
 
 						<button
 							type="submit"
-							className="btn btn-primary w-full">
-							Create Account
+							className="btn btn-primary w-full"
+							disabled={isPending}>
+							{isPending
+								? "Creating Account..."
+								: "	Create Account"}
 						</button>
 					</form>
 
