@@ -1,0 +1,4 @@
+<!-- save this as chat.svg in your /public folder -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+  <path fill-rule="evenodd" d="M2.25 12c0-4.97 4.477-9 10-9s10 4.03 10 9-4.477 9-10 9c-1.337 0-2.61-.26-3.75-.73L2.25 21l1.35-4.05A8.888 8.888 0 0 1 2.25 12Z" clip-rule="evenodd"></path>
+</svg>
