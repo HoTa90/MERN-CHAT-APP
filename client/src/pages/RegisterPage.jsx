@@ -1,14 +1,6 @@
 import { useActionState, useState } from "react";
 import { Link } from "react-router";
-import {
-	Eye,
-	EyeOff,
-	Loader2,
-	Lock,
-	Mail,
-	MessageSquare,
-	User,
-} from "lucide-react";
+import { BotMessageSquare, Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import ImagePattern from "../components/ImagePattern.jsx";
 import toast from "react-hot-toast";
 import { useAuthStore } from "../store/useAuthStore.js";
@@ -74,7 +66,7 @@ export default function RegisterPage() {
 							<div
 								className="size-12 rounded-xl bg-primary/10 flex items-center justify-center 
               group-hover:bg-primary/20 transition-colors">
-								<MessageSquare className="size-6 text-primary" />
+								<BotMessageSquare className="size-9 text-primary" />
 							</div>
 							<h1 className="text-2xl font-bold mt-2">
 								Create Account
