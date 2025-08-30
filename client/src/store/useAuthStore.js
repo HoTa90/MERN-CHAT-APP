@@ -4,7 +4,6 @@ import toast from "react-hot-toast";
 
 export const useAuthStore = create((set) => ({
 	authUser: null,
-	isLogging: false,
 	isUpdatingProfile: false,
 	isCheckingAuth: true,
 
@@ -48,4 +47,8 @@ export const useAuthStore = create((set) => ({
 			toast.error(err.response.data.message);
 		}
 	},
+
+	updateProfile: async (data) => {
+		
+	}
 }));
