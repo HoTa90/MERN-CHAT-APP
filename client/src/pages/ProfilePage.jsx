@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore.js";
 import { Camera, Mail, User } from "lucide-react";
+import toast from "react-hot-toast";
 
 export default function ProfilePage() {
 	const [selectedImg, setSelectedImg] = useState(null);
@@ -15,13 +16,29 @@ export default function ProfilePage() {
 			return;
 		}
 
+		const MAX_KB = 60;
+
+		if (!file.type.startsWith("image/")) {
+			toast.error("Please select an image file.");
+			return;
+		}
+
+		if (file.size > MAX_KB * 1024) {
+			toast.error(`File is too big. Max allowed is ${MAX_KB}KB.`);
+			return;
+		}
+
 		const reader = new FileReader();
 		reader.readAsDataURL(file);
 
 		reader.onload = async () => {
 			const base64Image = reader.result;
+			const { error } = await updateProfile({ profilePic: base64Image });
+			if (error) {
+				return;
+			}
+
 			setSelectedImg(base64Image);
-			await updateProfile({ profilePic: base64Image });
 		};
 	};
 
@@ -71,7 +88,7 @@ export default function ProfilePage() {
 					</div>
 					{/* user info section */}
 
-					<div className="space-y-6">
+					<div className="space-y-6 p-6">
 						<div className="space-y-1.5">
 							<div className="text-sm text-zinc-400 flex items-center gap-1">
 								<User className="size-5 " />
@@ -90,6 +107,24 @@ export default function ProfilePage() {
 							<p className="px-4 py-2.5 bg-base-200 rounded-lg border">
 								{authUser?.email}
 							</p>
+						</div>
+					</div>
+
+					{/* account info */}
+
+					<div className="mt-6 bg-base-300 rounded-xl p-6">
+						<h2 className="text-lg font-medium  mb-4">
+							Account Information
+						</h2>
+						<div className="space-y-3 text-sm">
+							<div className="flex items-center justify-between py-2 border-b border-zinc-700">
+								<span>Member Since</span>
+								<span>{authUser.createdAt?.split("T")[0]}</span>
+							</div>
+							<div className="flex items-center justify-between py-2">
+								<span>Account Status</span>
+								<span className="text-green-500">Active</span>
+							</div>
 						</div>
 					</div>
 				</div>
