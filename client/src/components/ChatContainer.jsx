@@ -4,6 +4,7 @@ import ChatHeader from "./ChatHeader.jsx";
 import MessageInput from "./MessageInput.jsx";
 import MessagesSkeleton from "./skeletons/MessagesSkeleton.jsx";
 import { useAuthStore } from "../store/useAuthStore.js";
+import { formatDate } from "../lib/utils.js";
 
 export default function ChatContainer() {
 	const { messages, getMessages, isMessagesLoading, selectedUser } =
@@ -56,7 +57,7 @@ export default function ChatContainer() {
 						</div>
 						<div className="chat-header mb-1">
 							<time className="text-xs opacity-50 ml-1">
-								{message.createdAt}
+								{formatDate( message.createdAt)}
 							</time>
 						</div>
 						<div className="chat-bubble flex flex-col">
