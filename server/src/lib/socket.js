@@ -11,12 +11,34 @@ const io = new Server(server, {
 	},
 });
 
-io.on("connection", (socket) => {
-    console.log('A user connected ', socket.id)
+const userSockets = new Map();
 
-    socket.on("disconnect", () => {
-        console.log('A user has discconected ', socket.id)
-    })
-})
+function emitOnlineUsers() {
+	io.emit("getOnlineUsers", Array.from(userSockets.keys()));
+}
+
+io.on("connection", (socket) => {
+	console.log("connected:", socket.id);
+
+	const userId = socket.handshake.query.userId;
+
+	if (userId) {
+		if (!userSockets.has(userId)) userSockets.set(userId, new Set());
+		userSockets.get(userId).add(socket.id);
+		emitOnlineUsers();
+	}
+
+	socket.on("disconnect", () => {
+		console.log("disconnected:", socket.id);
+		if (!userId) return;
+
+		const set = userSockets.get(userId);
+		if (set) {
+			set.delete(socket.id);
+			if (set.size === 0) userSockets.delete(userId);
+		}
+		emitOnlineUsers();
+	});
+});
 
 export { io, app, server };
