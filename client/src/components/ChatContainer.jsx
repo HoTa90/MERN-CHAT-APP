@@ -7,14 +7,8 @@ import { useAuthStore } from "../store/useAuthStore.js";
 import { formatDate } from "../lib/utils.js";
 
 export default function ChatContainer() {
-	const {
-		messages,
-		getMessages,
-		isMessagesLoading,
-		selectedUser,
-		subscribeToMessages,
-		unsubscribeFromMessages,
-	} = useChatStore();
+	const { messages, getMessages, isMessagesLoading, selectedUser, subscribeToMessages, unsubscribeFromMessages } =
+		useChatStore();
 
 	const { authUser } = useAuthStore();
 	const msgEndRef = useRef(null);
@@ -26,12 +20,7 @@ export default function ChatContainer() {
 		return () => {
 			unsubscribeFromMessages();
 		};
-	}, [
-		getMessages,
-		selectedUser._id,
-		subscribeToMessages,
-		unsubscribeFromMessages,
-	]);
+	}, [getMessages, selectedUser._id, subscribeToMessages, unsubscribeFromMessages]);
 
 	useEffect(() => {
 		if (msgEndRef.current && messages) {
@@ -59,32 +48,24 @@ export default function ChatContainer() {
 				{messages.map((message) => (
 					<div
 						key={message._id}
-						className={`chat ${
-							message.senderId === authUser._id
-								? "chat-end"
-								: "chat-start"
-						}`}
+						className={`chat ${message.senderId === authUser._id ? "chat-end" : "chat-start"}`}
 						ref={msgEndRef}>
 						<div className=" chat-image avatar">
 							<div className="size-10 rounded-full border">
 								<img
 									src={
 										message.senderId === authUser._id
-											? authUser.profilePic ||
-											  "/avatar.png"
-											: selectedUser.profilePic ||
-											  "/avatar.png"
+											? authUser.profilePic || "/avatar.png"
+											: selectedUser.profilePic || "/avatar.png"
 									}
 									alt="profile pic"
 								/>
 							</div>
 						</div>
 						<div className="chat-header mb-1">
-							<time className="text-xs opacity-50 ml-1">
-								{formatDate(message.createdAt)}
-							</time>
+							<time className="text-xs opacity-50 ml-1">{formatDate(message.createdAt)}</time>
 						</div>
-						<div className="chat-bubble flex flex-col">
+						<div className={`chat-bubble flex flex-col ${message.senderId === authUser._id ? "bg-primary text-primary-content" : "bg-base-200"}`}>
 							{message.image && (
 								<img
 									src={message.image}

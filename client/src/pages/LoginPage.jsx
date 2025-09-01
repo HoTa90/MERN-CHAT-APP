@@ -1,15 +1,6 @@
 import { useActionState, useState } from "react";
 import { Link } from "react-router";
-import {
-    BotMessageSquare,
-	Eye,
-	EyeOff,
-	Loader2,
-	Lock,
-	Mail,
-	MessageSquare,
-	User,
-} from "lucide-react";
+import { BotMessageSquare, Eye, EyeOff, Loader2, Lock, Mail, MessageSquare, User } from "lucide-react";
 import ImagePattern from "../components/ImagePattern.jsx";
 import toast from "react-hot-toast";
 import { useAuthStore } from "../store/useAuthStore.js";
@@ -19,10 +10,7 @@ export default function LoginPage() {
 	const { login } = useAuthStore();
 
 	const validateForm = (formData) => {
-		const {
-			email = "",
-			password = "",
-		} = Object.fromEntries(formData);
+		const { email = "", password = "" } = Object.fromEntries(formData);
 
 		if (!email.trim()) {
 			toast.error("Email is required.");
@@ -44,10 +32,7 @@ export default function LoginPage() {
 		return true;
 	};
 
-	const [, formAction, isPending] = useActionState(
-		(prev, formData) => loginAction(prev, formData, login),
-		null
-	);
+	const [, formAction, isPending] = useActionState((prev, formData) => loginAction(prev, formData, login), null);
 
 	async function loginAction(_, formData, login) {
 		const values = Object.fromEntries(formData);
@@ -72,22 +57,15 @@ export default function LoginPage() {
               group-hover:bg-primary/20 transition-colors">
 								<BotMessageSquare className="size-9 text-primary" />
 							</div>
-							<h1 className="text-2xl font-bold mt-2">
-								Welcome Back
-							</h1>
-							<p className="text-base-content/60">
-								Sign in you account
-							</p>
+							<h1 className="text-2xl font-bold mt-2">Welcome Back</h1>
+							<p className="text-base-content/60">Sign in you account</p>
 						</div>
 					</div>
 
 					<form action={formAction} className="space-y-6">
-
 						<div className="form-control">
 							<label className="label" htmlFor="email">
-								<span className="label-text font-medium">
-									Email
-								</span>
+								<span className="label-text font-medium">Email</span>
 							</label>
 							<div className="relative">
 								<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -105,9 +83,7 @@ export default function LoginPage() {
 
 						<div className="form-control">
 							<label className="label" htmlFor="password">
-								<span className="label-text font-medium">
-									Password
-								</span>
+								<span className="label-text font-medium">Password</span>
 							</label>
 							<div className="relative">
 								<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -123,14 +99,8 @@ export default function LoginPage() {
 								<button
 									type="button"
 									className="absolute inset-y-0 right-0 pr-3 flex items-center"
-									aria-label={
-										showPassword
-											? "Hide password"
-											: "Show password"
-									}
-									onClick={() =>
-										setShowPassword(!showPassword)
-									}>
+									aria-label={showPassword ? "Hide password" : "Show password"}
+									onClick={() => setShowPassword(!showPassword)}>
 									{showPassword ? (
 										<EyeOff className="size-5 text-base-content/40" />
 									) : (
@@ -140,13 +110,8 @@ export default function LoginPage() {
 							</div>
 						</div>
 
-						<button
-							type="submit"
-							className="btn btn-primary w-full"
-							disabled={isPending}>
-							{isPending
-								? "Logging in..."
-								: "Login"}
+						<button type="submit" className="btn btn-primary w-full" disabled={isPending}>
+							{isPending ? "Logging in..." : "Login"}
 						</button>
 					</form>
 

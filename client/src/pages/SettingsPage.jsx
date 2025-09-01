@@ -6,7 +6,7 @@ const PREVIEW_MSGS = [
 	{ id: 1, content: "Hey, How are you?", isSent: false },
 	{
 		id: 2,
-		content: "I am doing great, practicing my Frontend skills so i can first my first job as a Junior Web Dev",
+		content: "I am doing great, practicing my Frontend skills so i can find my first job as a Junior Web Dev",
 		isSent: true,
 	},
 ];
@@ -19,23 +19,17 @@ export default function SettingsPage() {
 			<div className="w-full space-y-6">
 				<div className="flex flex-col gap-1">
 					<h2 className="text-2xl font-semibold">Theme</h2>
-					<p className="text-lg text-base-content/70">
-						Choose a theme you like for your interface
-					</p>
+					<p className="text-lg text-base-content/70">Choose a theme you like for your interface</p>
 				</div>
 				<div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
 					{THEMES.map((t) => (
 						<button
 							key={t}
 							className={`group flex flex-col items-center gap-1.5 p-2 rounded-lg transition-colors ${
-								theme === t
-									? "bg-base-200"
-									: "hover:bg-base-200/50"
+								theme === t ? "bg-base-200" : "hover:bg-base-200/50"
 							}`}
 							onClick={() => setTheme(t)}>
-							<div
-								className="relative h-8 w-full rounded-md overflow-hidden"
-								data-theme={t}>
+							<div className="relative h-8 w-full rounded-md overflow-hidden" data-theme={t}>
 								<div className="absolute inset-0 grid grid-cols-4 gap-px p-1">
 									<div className="rounded bg-primary"></div>
 									<div className="rounded bg-secondary"></div>
@@ -62,12 +56,8 @@ export default function SettingsPage() {
 											H
 										</div>
 										<div>
-											<h3 className="font-medium text-sm">
-												Hota
-											</h3>
-											<p className="text-xs text-base-content/70">
-												Online
-											</p>
+											<h3 className="font-medium text-sm">Hota</h3>
+											<p className="text-xs text-base-content/70">Online</p>
 										</div>
 									</div>
 								</div>
@@ -77,32 +67,18 @@ export default function SettingsPage() {
 									{PREVIEW_MSGS.map((message) => (
 										<div
 											key={message.id}
-											className={`flex ${
-												message.isSent
-													? "justify-end"
-													: "justify-start"
-											}`}>
+											className={`flex ${message.isSent ? "justify-end" : "justify-start"}`}>
 											<div
-												className={`
-                          max-w-[80%] rounded-xl p-3 shadow-sm
-                          ${
-								message.isSent
-									? "bg-primary text-primary-content"
-									: "bg-base-200"
-							}
-                        `}>
-												<p className="text-sm">
-													{message.content}
-												</p>
+												className={`max-w-[80%] rounded-xl p-3 shadow-sm ${
+													message.isSent ? "bg-primary text-primary-content" : "bg-base-200"
+												}`}>
+												<p className="text-sm">{message.content}</p>
 												<p
-													className={`
-                            text-[10px] mt-1.5
-                            ${
-								message.isSent
-									? "text-primary-content/70"
-									: "text-base-content/70"
-							}
-                          `}>
+													className={`text-[10px] mt-1.5 ${
+														message.isSent
+															? "text-primary-content/70"
+															: "text-base-content/70"
+													} `}>
 													12:00 PM
 												</p>
 											</div>
