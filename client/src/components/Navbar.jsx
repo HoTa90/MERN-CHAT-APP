@@ -10,9 +10,7 @@ const Navbar = () => {
 			<div className="container mx-auto px-4 h-16">
 				<div className="flex items-center justify-between h-full">
 					<div className="flex items-center gap-8">
-						<Link
-							to="/"
-							className="flex items-center gap-2.5 hover:opacity-80 transition-all">
+						<Link to="/" className="flex items-center gap-2.5 hover:opacity-80 transition-all">
 							<div className="size-9 rounded-lg bg-primary/10 flex items-center justify-center">
 								<BotMessageSquare className="size-10 text-primary" />
 							</div>
@@ -21,34 +19,21 @@ const Navbar = () => {
 					</div>
 
 					<div className="flex items-center gap-2">
-						<Link
-							to={"/settings"}
-							className={`
-              btn gap-2 transition-colors
-              
-              `}>
+						<Link to={"/settings"} className={`btn gap-2 transition-colors`}>
 							<Settings className="w-4 h-4" />
 							<span className="hidden sm:inline">Settings</span>
 						</Link>
 
 						{authUser && (
 							<>
-								<Link
-									to={"/profile"}
-									className={`btn gap-2`}>
+								<Link to={"/profile"} className={`btn gap-2`}>
 									<User className="size-5" />
-									<span className="hidden sm:inline">
-										Profile
-									</span>
+									<span className="hidden sm:inline">Profile</span>
 								</Link>
 
-								<button
-									className="flex gap-2 btn items-center cursor-pointer"
-									onClick={logout}>
+								<button className="flex gap-2 btn items-center cursor-pointer" onClick={logout}>
 									<LogOut className="size-5" />
-									<span className="hidden sm:inline">
-										Logout
-									</span>
+									<span className="hidden sm:inline">Logout</span>
 								</button>
 							</>
 						)}

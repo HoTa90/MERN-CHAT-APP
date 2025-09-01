@@ -67,20 +67,32 @@ export default function SettingsPage() {
 									{PREVIEW_MSGS.map((message) => (
 										<div
 											key={message.id}
-											className={`flex ${message.isSent ? "justify-end" : "justify-start"}`}>
+											className={`chat ${message.isSent ? "chat-end" : "chat-start"}`}>
+											{message.isSent ? (
+												<div className="chat-image">
+													<div className="size-10 rounded-full bg-primary flex items-center justify-center text-primary-content font-medium">
+														H
+													</div>
+												</div>
+											) : (
+												<div className="chat-image avatar">
+													<div className="size-10 rounded-full border">
+														<img src="/avatar.png" alt="profile pic" />
+													</div>
+												</div>
+											)}
+
+											<div className="chat-header mb-1">
+												<time className="text-xs opacity-50 ml-1">
+													{message.time || "12:00 PM"}
+												</time>
+											</div>
+
 											<div
-												className={`max-w-[80%] rounded-xl p-3 shadow-sm ${
+												className={`chat-bubble flex flex-col ${
 													message.isSent ? "bg-primary text-primary-content" : "bg-base-200"
 												}`}>
 												<p className="text-sm">{message.content}</p>
-												<p
-													className={`text-[10px] mt-1.5 ${
-														message.isSent
-															? "text-primary-content/70"
-															: "text-base-content/70"
-													} `}>
-													12:00 PM
-												</p>
 											</div>
 										</div>
 									))}
