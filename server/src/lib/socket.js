@@ -11,7 +11,7 @@ const io = new Server(server, {
 	},
 });
 
-const userSockets = new Map();
+const userSockets = new Map(); // userId - socketId
 
 function emitOnlineUsers() {
 	io.emit("getOnlineUsers", Array.from(userSockets.keys()));
@@ -23,8 +23,7 @@ io.on("connection", (socket) => {
 	const userId = socket.handshake.query.userId;
 
 	if (userId) {
-		if (!userSockets.has(userId)) userSockets.set(userId, new Set());
-		userSockets.get(userId).add(socket.id);
+		userSockets.set(userId, socket.id);
 		emitOnlineUsers();
 	}
 
@@ -32,13 +31,15 @@ io.on("connection", (socket) => {
 		console.log("disconnected:", socket.id);
 		if (!userId) return;
 
-		const set = userSockets.get(userId);
-		if (set) {
-			set.delete(socket.id);
-			if (set.size === 0) userSockets.delete(userId);
+		if (userSockets.get(userId) === socket.id) {
+			userSockets.delete(userId);
+			emitOnlineUsers();
 		}
-		emitOnlineUsers();
 	});
 });
+
+export const getReceiverSocketId = (userId) => {
+	return userSockets.get(userId) || null;
+};
 
 export { io, app, server };
