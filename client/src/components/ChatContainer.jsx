@@ -7,14 +7,30 @@ import { useAuthStore } from "../store/useAuthStore.js";
 import { formatDate } from "../lib/utils.js";
 
 export default function ChatContainer() {
-	const { messages, getMessages, isMessagesLoading, selectedUser } =
-		useChatStore();
+	const {
+		messages,
+		getMessages,
+		isMessagesLoading,
+		selectedUser,
+		subscribeToMessages,
+		unsubscribeFromMessages,
+	} = useChatStore();
 
 	const { authUser } = useAuthStore();
 
 	useEffect(() => {
 		getMessages(selectedUser._id);
-	}, [getMessages, selectedUser._id]);
+		subscribeToMessages();
+
+		return () => {
+			unsubscribeFromMessages();
+		};
+	}, [
+		getMessages,
+		selectedUser._id,
+		subscribeToMessages,
+		unsubscribeFromMessages,
+	]);
 
 	if (isMessagesLoading) {
 		return (
@@ -57,7 +73,7 @@ export default function ChatContainer() {
 						</div>
 						<div className="chat-header mb-1">
 							<time className="text-xs opacity-50 ml-1">
-								{formatDate( message.createdAt)}
+								{formatDate(message.createdAt)}
 							</time>
 						</div>
 						<div className="chat-bubble flex flex-col">
