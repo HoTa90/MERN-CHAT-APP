@@ -12,7 +12,7 @@ dotenv.config();
 
 const PORT = Number(process.env.PORT) || 5005;
 const __dirname = path.resolve();
-console.log(__dirname)
+console.log(__dirname);
 
 app.use(express.json());
 app.use(cookieParser());
@@ -25,13 +25,15 @@ app.use(
 
 app.use("/api/auth", authRouter);
 app.use("/api/messages", messageRouter);
-console.log('ENV=', process.env.NODE_ENV, 'PORT=', process.env.PORT);
 
-if (process.env.NODE_ENV === 'production') {
-	app.use(express.static(path.join(__dirname, '../client/dist')));
+const filePath = path.resolve(__dirname, "../client", "dist", "index.html");
 
-	app.get("*", (req, res) => {
-		res.sendFile(path.resolve(__dirname, "../client", "dist", "index.html"))
+if (process.env.NODE_ENV === "production") {
+	app.use(express.static(path.join(__dirname, "../client/dist")));
+	
+	
+	app.get(/.*/, (req, res) => {
+		res.sendFile(path.resolve(__dirname, "../client/dist/index.html"));
 	});
 }
 
