@@ -6,7 +6,7 @@ const Navbar = () => {
 	const { logout, authUser } = useAuthStore();
 
 	return (
-		<header className="fixed top-0 w-full z-40 backdrop-blur-lg bg-base-200/80 border-b border-base-300 shadow-sm">
+		<header className="fixed top-0 w-full z-40 backdrop-blur-lg bg-base-200/80 border-b border-base-300 shadow shadow-primary/30 ">
 			<div className="container mx-auto px-4 h-16">
 				<div className="flex items-center justify-between h-full">
 					<div className="flex items-center gap-8">

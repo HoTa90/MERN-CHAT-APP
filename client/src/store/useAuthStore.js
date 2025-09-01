@@ -67,8 +67,7 @@ export const useAuthStore = create((set, get) => ({
 			return { user: res.data };
 		} catch (err) {
 			console.error("error in updateProfile", err.message);
-			const msg =
-				err.response?.data?.message ?? "Failed to update profile";
+			const msg = err.response?.data?.message ?? "Failed to update profile";
 			toast.error(msg);
 			return { error: msg };
 		} finally {
@@ -83,13 +82,13 @@ export const useAuthStore = create((set, get) => ({
 		}
 		const socket = io(BASE_URL, {
 			query: {
-				userId: authUser._id
-			}
+				userId: authUser._id,
+			},
 		});
 		socket.connect();
 		set({ socket: socket });
 		socket.on("getOnlineUsers", (userIds) => {
-			set ({onlineUsers: userIds})
+			set({ onlineUsers: userIds });
 		});
 	},
 	disconnectSocket: () => {
