@@ -15,7 +15,7 @@ A real-time 1:1 chat application with authentication, online presence, unread ba
 
 ## Live Preview
 
-[![Live Demo](https://img.shields.io/badge/Live_Demo-Open-green?style=for-the-badge)](<!-- add your deployed URL here -->)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Open-green?style=for-the-badge)](https://mern-chat-app-i1r4.onrender.com/)
 
 **Important Note:**  
 If you encounter Error 502 Bad Gateway, the servers are down so you try again in a few minutes.
