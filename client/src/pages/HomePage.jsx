@@ -2,9 +2,39 @@ import ChatContainer from "../components/ChatContainer.jsx";
 import NoSelectedChat from "../components/NoSelectedChat.jsx";
 import SideBar from "../components/SideBar.jsx";
 import { useChatStore } from "../store/useChatStore.js";
+import { useAuthStore } from "../store/useAuthStore.js";
+import { useEffect } from "react";
 
 export default function HomePage() {
-	const { selectedUser } = useChatStore();
+	const { selectedUser, unsubscribeFromMessages, subscribeToMessages } = useChatStore();
+	const { socket } = useAuthStore();
+
+	useEffect(() => {
+		const handleSocketConnect = () => {
+			if (socket && socket.connected) {
+				subscribeToMessages();
+				console.log("subscribed after socket connection");
+			}
+		};
+
+		if (socket && socket.connected) {
+			subscribeToMessages();
+			console.log("subscribed (socket already connected)");
+		}
+
+		if (socket) {
+			socket.on("connect", handleSocketConnect);
+		}
+
+		return () => {
+			unsubscribeFromMessages();
+			console.log("unsubscribed");
+
+			if (socket) {
+				socket.off("connect", handleSocketConnect);
+			}
+		};
+	}, [unsubscribeFromMessages, socket, subscribeToMessages]);
 
 	return (
 		<div className="h-screen bg-base-200">
